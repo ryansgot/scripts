@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #
-# Filename:		unique.py
-# Author:		Ryan Scott
-# Date:			20141120
-# Purpose:		Filter output for uniqueness
+# Filename  unique.py
+# Author:   Ryan Scott
+# Date:     20141120
+# Purpose:  Filter output for uniqueness
 
 ####################################################################################################
 #                                             IMPORTS                                              #
@@ -46,25 +46,25 @@ import sys, argparse
 # TODO: write the functions 
 
 def main(args):
-	''' read lines from stdin and print each unique line as read '''
+    ''' read lines from stdin and print each unique line as read '''
 
-	line_count_dict = {}
+    line_count_dict = {}
 
-	# 
-	for line in sys.stdin.readlines():
-		line = line.strip("\n")
-		if line not in line_count_dict:
-			line_count_dict[line] = 1
-			print(line)
-		else:
-			line_count_dict[line] += 1
+    # 
+    for line in sys.stdin.readlines():
+        line = line.strip("\n")
+        if line not in line_count_dict:
+            line_count_dict[line] = 1
+            print(line)
+        else:
+            line_count_dict[line] += 1
 
-	# 
-	if args.VERBOSE:
-		print
-		print("Line Counts:")
-		for line, count in line_count_dict.items():
-			print(str(count) +"\t" + line)
+    # 
+    if args.VERBOSE:
+        print
+        print("Line Counts:")
+        for line, count in line_count_dict.items():
+            print(str(count) +"\t" + line)
 
 ####################################################################################################
 #                                            FUNCTIONS                                             #

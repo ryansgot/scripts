@@ -23,7 +23,7 @@ declare -A fmt_array=( bold]="e[1m" [underline]="e[4m" [dim]="e[2m" [strickthrou
 
 # Global symbols that could be set elsewhere and should not be overwritten
 if [ -z "$VERBOSE_FLAG" ]; then VERBOSE_FLAG=0; fi
-if [ -z "$SCRIPT_NAME" ]; then SCRIPT_NAME=$(basename "$0"); fi	# tracks whether script is sourced
+if [ -z "$SCRIPT_NAME" ]; then SCRIPT_NAME=$(basename "$0"); fi    # tracks whether script is sourced
 
 ####################################################################################################
 #                                             GLOBALS                                              #
@@ -35,31 +35,31 @@ if [ -z "$SCRIPT_NAME" ]; then SCRIPT_NAME=$(basename "$0"); fi	# tracks whether
 
 # get string ($1) with formats ($*)
 function colored_string {
-	local out_string="$1"
-	shift
+    local out_string="$1"
+    shift
 
-	# return the format string for all formats input
-	function get_fmts {
-		local ret=""
-		for entry in $@; do
-			if [ ! -z "${color_array[$entry]}" ] || [ ! -z "${fmt_array[$entry]}" ]; then
-				ret="$ret${color_array[$fmt]}"
-			fi
-		done
-		echo "$ret"
-	}
+    # return the format string for all formats input
+    function get_fmts {
+        local ret=""
+        for entry in $@; do
+            if [ ! -z "${color_array[$entry]}" ] || [ ! -z "${fmt_array[$entry]}" ]; then
+                ret="$ret${color_array[$fmt]}"
+            fi
+        done
+        echo "$ret"
+    }
 
-	local fmt="$(get_fmts "$*")"
+    local fmt="$(get_fmts "$*")"
 
-	unset -f get_fmts
-	echo "$fmt$out_string${fmt_array[normal]}"
+    unset -f get_fmts
+    echo "$fmt$out_string${fmt_array[normal]}"
 }
 
 # run tests of the script functions and echo variable values
 function test_script_functions {
-	echo "Running test of functions defined in $(basename $0)"
-	echo -e "\tVERBOSE_FLAG: $VERBOSE_FLAG"
-	# TODO: Put test output for other functions here
+    echo "Running test of functions defined in $(basename $0)"
+    echo -e "\tVERBOSE_FLAG: $VERBOSE_FLAG"
+    # TODO: Put test output for other functions here
 }
 
 ####################################################################################################
@@ -74,12 +74,12 @@ function test_script_functions {
 
 # cleanup
 if [ "$BASH_SOURCE" == "$SCRIPT_NAME" ]; then # the script was not sourced, so must clean up
-	test_script_functions $*
-	unset VERBOSE_FLAG
-	unset color_array
-	unset fmt_array
+    test_script_functions $*
+    unset VERBOSE_FLAG
+    unset color_array
+    unset fmt_array
 fi
-unset -f test_script_functions	# we want to unset this regardless of whether the script was sourced
+unset -f test_script_functions    # we want to unset this regardless of whether the script was sourced
 
 ####################################################################################################
 #                                              BODY                                                #

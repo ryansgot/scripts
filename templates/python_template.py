@@ -1,10 +1,10 @@
 #!/usr/bin/python
 #
-# filename	python_template.py
-# author	Ryan Scott
-# date		20141120
-# purpose	Provide boilerplate code for all python scripts
-# assumes	Python 2
+# filename    python_template.py
+# author    Ryan Scott
+# date        20141120
+# purpose    Provide boilerplate code for all python scripts
+# assumes    Python 2
 
 ####################################################################################################
 #                                             IMPORTS                                              #
@@ -45,8 +45,8 @@ import sys, argparse
 ####################################################################################################
 
 def main(args):
-	''' pass in all arguments (no options) from command line--then perform script behaviors '''
-	pass
+    ''' pass in all arguments (no options) from command line--then perform script behaviors '''
+    pass
 
 ####################################################################################################
 #                                            FUNCTIONS                                             #

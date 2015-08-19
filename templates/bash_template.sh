@@ -25,7 +25,7 @@ popd > /dev/null
 ####################################################################################################
 
 # TODO: Put all global symbols here, but be sure to unset them in the cleanup section of the body.
-#		If the variables have default values, set them here
+#        If the variables have default values, set them here
 
 # Global symbols that cannot be set by command line arguments
 
@@ -36,7 +36,7 @@ popd > /dev/null
 # Global symbols that could be set elsewhere and should not be overwritten
 if [ -z "$TEST_FLAG" ]; then TEST_FLAG=0; fi
 if [ -z "$VERBOSE_FLAG" ]; then VERBOSE_FLAG=0; fi
-if [ -z "$SCRIPT_NAME" ]; then SCRIPT_NAME=$(basename "$0"); fi	# tracks whether script is sourced
+if [ -z "$SCRIPT_NAME" ]; then SCRIPT_NAME=$(basename "$0"); fi    # tracks whether script is sourced
 
 ####################################################################################################
 #                                             GLOBALS                                              #
@@ -47,29 +47,29 @@ if [ -z "$SCRIPT_NAME" ]; then SCRIPT_NAME=$(basename "$0"); fi	# tracks whether
 ####################################################################################################
 
 # TODO: Put user-defined functions here. As you write them, be sure to unset them in the cleanup
-#		section of the body
+#        section of the body
 
 # display help text
 function help_text {
-	echo "$SCRIPT_NAME [-HTV]"
-	echo "The description of the script should go here."
+    echo "$SCRIPT_NAME [-HTV]"
+    echo "The description of the script should go here."
 }
 
 # run tests of the script functions and echo variable values
 function test_script {
-	echo "Running test of $SCRIPT_NAME"
-	echo "Global Variable Values:"
-	# TODO: echo Global Variable values here
-	echo -e "\tTEST_FLAG: $TEST_FLAG"
-	echo -e "\tVERBOSE_FLAG: $VERBOSE_FLAG"
-	echo -e "\tPositional Arguments: $*"
-	# TODO: Put test output for other functions here 
-	echo "help_text returns: $(help_text)"
+    echo "Running test of $SCRIPT_NAME"
+    echo "Global Variable Values:"
+    # TODO: echo Global Variable values here
+    echo -e "\tTEST_FLAG: $TEST_FLAG"
+    echo -e "\tVERBOSE_FLAG: $VERBOSE_FLAG"
+    echo -e "\tPositional Arguments: $*"
+    # TODO: Put test output for other functions here 
+    echo "help_text returns: $(help_text)"
 }
 
 # pass in all arguments (no options) from command line and then perform script behaviors
 function main {
-	echo > /dev/null
+    echo > /dev/null
 }
 
 ####################################################################################################
@@ -82,43 +82,43 @@ function main {
 
 # Get command line options
 while getopts ":HTV" opt; do
-	case $opt in
-    	H) help_text; exit 0;;
-		T) TEST_FLAG=1;;
-		V) VERBOSE_FLAG=1;;
-    	\?) help_text; echo "Invalid option: -$OPTARG" >&2; exit 1;;
-  	esac
+    case $opt in
+        H) help_text; exit 0;;
+        T) TEST_FLAG=1;;
+        V) VERBOSE_FLAG=1;;
+        \?) help_text; echo "Invalid option: -$OPTARG" >&2; exit 1;;
+      esac
 done
 shift $((OPTIND-1))
 
 # Get command line positional arguments
 # TODO: For each expected positional argument, do something like the below
 #if [ -z "$1" ]; then
-#	help_text; exit 2
+#    help_text; exit 2
 #else
-#	position_1_var=$1
+#    position_1_var=$1
 #fi
 
 # Validate sanity of options/arguments
 
 # Run main or test
 if [ 1 -ne $TEST_FLAG ]; then
-	main $*
+    main $*
 else
-	test_script $*
+    test_script $*
 fi
 
 # cleanup
 if [ "$BASH_SOURCE" == "$SCRIPT_NAME" ]; then # the script was not sourced, so must clean up
-	# TODO: unset all global values here
-	unset TEST_FLAG
-	unset VERBOSE_FLAG
-	unset SCRIPT_NAME
+    # TODO: unset all global values here
+    unset TEST_FLAG
+    unset VERBOSE_FLAG
+    unset SCRIPT_NAME
 
-	# TODO: unset all functions here
-	unset -f help_text
-	unset -f test_script
-	unset -f main
+    # TODO: unset all functions here
+    unset -f help_text
+    unset -f test_script
+    unset -f main
 fi
 
 ####################################################################################################
