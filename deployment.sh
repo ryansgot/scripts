@@ -6,15 +6,13 @@
 # purpose   Perform a deployment of an application library to nexus
 # assumes   You have an environment variable called FUNCTION_LIB_DIR and it is a directory
 #           You have a file called log.lib in that directory.
-#           You have an environment variable called BASE_DIR and it is a directory containing the 
-#            project directories
-#            You have an environment variable called COMPANY_GROUP_ID that is used for your company
-#            libraries
-#            You have an environment variable called NEXUS_RELEASE_SERVER that is used for your 
-#            company's releases
-#            You have an environment variable called NEXUS_SNAPSHOT_SERVER that is used for your
-#            company's snapshots
-#            Your repository directory is located at $HOME/repos
+#           You have an environment variable called COMPANY_GROUP_ID that is used for your company
+#           libraries
+#           You have an environment variable called NEXUS_RELEASE_SERVER that is used for your 
+#           company's releases
+#           You have an environment variable called NEXUS_SNAPSHOT_SERVER that is used for your
+#           company's snapshots
+#           Your repository directory is located at $HOME/repos
 
 ####################################################################################################
 #                                             SOURCES                                              #
@@ -36,7 +34,6 @@ popd > /dev/null
 # TODO: Put all global symbols here, but be sure to unset them in the cleanup section of the body.
 #        If the variables have default values, set them here
 BASE_DIR=$HOME/repos
-
 
 # Global symbols that cannot be set by command line arguments
 
