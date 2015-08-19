@@ -1,0 +1,86 @@
+#!/bin/bash
+#
+# filename  colored_output_strings.lib
+# author    ryan
+# date      20141130
+# purpose   provide color code definitions for outputting colored strings to the terminal
+# assumes   Nothing
+
+####################################################################################################
+#                                             SOURCES                                              #
+####################################################################################################
+
+####################################################################################################
+#                                             SOURCES                                              #
+####################################################################################################
+
+####################################################################################################
+#                                             GLOBALS                                              #
+####################################################################################################
+
+declare -A color_array=( [black]="e[30m" [red]="e[31m" [green]="e[32m" [orange]="e[33m" [blue]="e[34m" [purple]="e[35m" [aqua]="e[36m" [gray]="e[37m" [darkgray]="e[90m" [lightred]="e[91m" [lightgreen]="e[92m" [lightyellow]="e[93m" [lightblue]="e[94m" [lightpurple]="e[95m" [lightaqua]="e[96m" [white]="e[97m" [default]="e[39m" [BLACK]="e[40m" [RED]="e[41m" [GREEN]="e[42m" [ORANGE]="e[43m" [BLUE]="e[44m" [PURPLE]="e[45m" [AQUA]="e[46m" [GRAY]="e[47m" [DARKGRAY]="e[100m" [LIGHTRED]="e[101m" [LIGHTGREEN]="e[102m" [LIGHTYELLOW]="e[103m" [LIGHTBLUE]="e[104m" [LIGHTPURPLE]="e[105m" [LIGHTAQUA]="e[106m" [WHITE]="e[107m" [DEFAULT]="e[49m" )
+declare -A fmt_array=( bold]="e[1m" [underline]="e[4m" [dim]="e[2m" [strickthrough]="e[9m" [blink]="e[5m" [reverse]="e[7m" [hidden]="e[8m" [normal]="e[0m" )
+
+# Global symbols that could be set elsewhere and should not be overwritten
+if [ -z "$VERBOSE_FLAG" ]; then VERBOSE_FLAG=0; fi
+if [ -z "$SCRIPT_NAME" ]; then SCRIPT_NAME=$(basename "$0"); fi	# tracks whether script is sourced
+
+####################################################################################################
+#                                             GLOBALS                                              #
+####################################################################################################
+
+####################################################################################################
+#                                            FUNCTIONS                                             #
+####################################################################################################
+
+# get string ($1) with formats ($*)
+function colored_string {
+	local out_string="$1"
+	shift
+
+	# return the format string for all formats input
+	function get_fmts {
+		local ret=""
+		for entry in $@; do
+			if [ ! -z "${color_array[$entry]}" ] || [ ! -z "${fmt_array[$entry]}" ]; then
+				ret="$ret${color_array[$fmt]}"
+			fi
+		done
+		echo "$ret"
+	}
+
+	local fmt="$(get_fmts "$*")"
+
+	unset -f get_fmts
+	echo "$fmt$out_string${fmt_array[normal]}"
+}
+
+# run tests of the script functions and echo variable values
+function test_script_functions {
+	echo "Running test of functions defined in $(basename $0)"
+	echo -e "\tVERBOSE_FLAG: $VERBOSE_FLAG"
+	# TODO: Put test output for other functions here
+}
+
+####################################################################################################
+#                                            FUNCTIONS                                             #
+####################################################################################################
+
+####################################################################################################
+#                                              BODY                                                #
+####################################################################################################
+
+# Validate sanity of options/arguments
+
+# cleanup
+if [ "$BASH_SOURCE" == "$SCRIPT_NAME" ]; then # the script was not sourced, so must clean up
+	test_script_functions $*
+	unset VERBOSE_FLAG
+	unset color_array
+	unset fmt_array
+fi
+unset -f test_script_functions	# we want to unset this regardless of whether the script was sourced
+
+####################################################################################################
+#                                              BODY                                                #
+####################################################################################################

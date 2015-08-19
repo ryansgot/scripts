@@ -1,0 +1,137 @@
+#!/bin/bash
+#
+# filename	log.lib
+# author	Ryan Scott
+# date		20141115
+# purpose	Provide logging code that allows the user to cleanly log messages to the terminal
+
+####################################################################################################
+#                                             SOURCES                                              #
+####################################################################################################
+
+####################################################################################################
+#                                             SOURCES                                              #
+####################################################################################################
+
+####################################################################################################
+#                                             GLOBALS                                              #
+####################################################################################################
+
+# Global symbols that could be set elsewhere and should not be overwritten
+if [ -z "$VERBOSE_FLAG" ]; then VERBOSE_FLAG=0; fi
+if [ -z "$SCRIPT_NAME" ]; then SCRIPT_NAME=$(basename "$0"); fi	# tracks whether script is sourced
+
+####################################################################################################
+#                                             GLOBALS                                              #
+####################################################################################################
+
+####################################################################################################
+#                                            FUNCTIONS                                             #
+####################################################################################################
+
+# output a complete line of - characters if VERBOSE_FLAG is 1
+function visual_break {
+	if [ 1 -eq $VERBOSE_FLAG ]; then
+		for i in $(seq 1 $(tput cols)); do
+			echo -n '-'
+		done
+		echo
+	fi
+}
+
+# log a title ($1-) string that is centered on the screen around complete lines of - characters if
+# VERBOSE_FLAG is 1
+function log_title {
+	if [ 1 -eq $VERBOSE_FLAG ]; then
+		# Centers the text logged ($*) . . . there is no need for anyone else to call this function
+		function box_body_text() {
+			local title="$*"
+			local max_width=$(expr $(tput cols) - 4)	# lines begin with '| ' and close with ' |'
+			local title_length=${#title}
+			if [ $title_length -gt $max_width ]; then
+				box_body_text "${title:0:$max_width}"
+				local last_char=$(expr $title_length - 1)
+				box_body_text "${title:$max_width:$last_char}"
+			else
+				echo -n '| '
+				local blank_space=$(expr $(expr $max_width - $title_length) / 2)
+				if [ 0 -lt $blank_space ]; then
+					for i in $(seq 1 $blank_space); do
+						echo -n ' '
+					done
+				fi
+				echo -n "$title"
+				if [ 0 -lt $blank_space ]; then
+					for i in $(seq 1 $blank_space); do
+						echo -n ' '
+					done
+				fi
+				# account for the integer division that determines the value of blank_space
+				if [ $max_width -gt $(expr 2 \* $blank_space + $title_length) ]; then
+					echo '  |'
+				else
+					echo ' |'
+				fi
+			fi
+		}
+		visual_break
+		box_body_text "$*"
+		unset -f box_body_text
+		visual_break
+	fi
+}
+
+# log a message ($2-) to stdout with a tag ($1) if VERBOSE_FLAG is 1
+function log {
+	if [ 1 -eq $VERBOSE_FLAG ]; then
+		local tag=$1
+		shift
+		echo -e "[$tag] $*"
+	fi
+}
+
+# log a message ($2-) to stderr with a tag ($1) regardless of VERBOSE_FLAG
+function log_error {
+	local tag=$1
+	shift
+	echo "[$tag] $*" 1>&2
+}
+
+# run tests of the script functions
+function test_script_functions {
+	echo "Running test of functions defined in $(basename $0)"
+	echo -e "\tVERBOSE_FLAG: $VERBOSE_FLAG"
+	echo "visual_break outputs:"
+	visual_break
+	echo "log_title This is a title outputs"
+	log_title This is a title
+	echo "log tag message outputs:"
+	log tag message
+	echo "log_error tag message outputs:"
+	log_error tag message
+	echo "log_title with a really long title outputs:"
+	t="This is a really long title that I'm using to demonstrate what logging a really long title"
+	t="$t will actually look like when someone actually logs a really long title. I still need to"
+	t="$t add some more text in order to really demonstrate why the implementation I chose is"
+	t="$t important because of the recursive nature of this problem."
+	log_title "$t"
+}
+
+####################################################################################################
+#                                            FUNCTIONS                                             #
+####################################################################################################
+
+####################################################################################################
+#                                              BODY                                                #
+####################################################################################################
+
+# cleanup
+if [ "$BASH_SOURCE" == "$SCRIPT_NAME" ]; then # the script was not sourced, so must clean up
+	test_script_functions $*
+	unset VERBOSE_FLAG
+fi
+unset -f test_script_functions	# we want to unset this regardless of whether the script was sourced
+
+####################################################################################################
+#                                              BODY                                                #
+####################################################################################################
