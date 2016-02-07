@@ -94,13 +94,13 @@ function already_in_path {
 # replace the header information for the file $1
 function replace_header_info {
     log 'replace_header_info' "Replacing filename to $(basename $1)"
-    sed -i '' "s/# filename  .*/# filename  $(basename $1)/g" "$1"
+    sed -i "s/# filename  .*/# filename  $(basename $1)/g" "$1"
     log 'replace_header_info' "Replacing author to $USER"
-    sed -i '' "s/# author    .*/# author    $USER/g" "$1"
+    sed -i "s/# author    .*/# author    $USER/g" "$1"
     log 'replace_header_info' "Replacing date to $(date +%Y%m%d)"
-    sed -i '' "s/# date      .*/# date      $(date +%Y%m%d)/g" "$1"
+    sed -i "s/# date      .*/# date      $(date +%Y%m%d)/g" "$1"
     log 'replace_header_info' "Replacing date to TODO: write purpose"
-    sed -i '' "s/# purpose   .*/# purpose   TODO: write purpose/g" "$1"
+    sed -i "s/# purpose   .*/# purpose   TODO: write purpose/g" "$1"
 }
 
 # echo 1 if the source file is a funciton template and 0 otherwise
